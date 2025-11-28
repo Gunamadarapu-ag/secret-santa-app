@@ -1,0 +1,23 @@
+# Python compilation files (junk)
+__pycache__/
+*.py[cod]
+
+# Virtual Environments (Do NOT upload these!)
+.venv/
+venv/
+env/
+
+# Environment Variables & Secrets (CRITICAL SECURITY)
+.env
+.streamlit/secrets.toml
+
+# VS Code settings (User specific settings)
+.vscode/
+
+# Operating System files
+Thumbs.db
+.DS_Store
+
+# Ignore data files containing real employee info
+# (Uncomment the line below if you don't want CSVs on GitHub)
+# *.csv
