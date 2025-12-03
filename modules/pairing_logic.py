@@ -32,13 +32,13 @@ def generate_matches(df):
             receiver = participants[(i + 1) % count]
             
             matches.append({
-    'Location': location,
-    'Giver_ID': giver['empid'],   
-    'Giver_Name': giver['empname'],
-    'Giver_Email': giver['empmail'],
-    'Receiver_ID': receiver['empid'], 
-    'Receiver_Name': receiver['empname'],
-    'Receiver_Email': receiver['empmail']
+    'emp_id': str(giver['empid']),
+    'name': giver['empname'],   
+    'email': giver['empmail'],
+    'location': location,
+    'match_name': receiver['empname'],
+    'match_email': receiver['empmail'],
+    'match_location': location
 })
             
     return pd.DataFrame(matches), errors
