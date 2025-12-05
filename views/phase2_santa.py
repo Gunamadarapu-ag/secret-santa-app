@@ -61,7 +61,7 @@ def show_santa_dashboard(user):
 
     # LEFT COLUMN: THE CHILD'S WISHLIST
     with col_target:
-        st.markdown(f"### 🎁 **{user['match_name']}'s** Wishlist")
+        st.markdown(f"### 🎁 Child Wishlist")
         st.caption("(What they want from YOU)")
         with st.container(border=True):
             if target_wishlist == "Not submitted yet.":
