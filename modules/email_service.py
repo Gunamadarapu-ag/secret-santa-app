@@ -8,7 +8,7 @@ import time
 # --- CONFIGURATION ---
 # We use the filename directly. Make sure 'logo.png' is in your main project folder.
 LOCAL_LOGO_FILENAME = "logo_aciesGlobal_2024_light.png" 
-
+#last updated: 05-12-2025
 # --- HTML TEMPLATE GENERATOR ---
 def get_html_template(name, body_content, cta_text=None, cta_link=None):
     """
