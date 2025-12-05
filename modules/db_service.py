@@ -33,6 +33,20 @@ def init_game_db(matches_df):
     except Exception as e:
         st.error(f"⚠️ Error wiping old data: {str(e)}")
         # We continue anyway, just in case the table was already empty
+def add_more_participants(matches_df):
+    """
+    Safely adds NEW participants (e.g., Chennai) to the existing game
+    WITHOUT deleting the old ones (Bangalore).
+    """
+    supabase = init_supabase()
+    rows = matches_df.to_dict('records')
+    try:
+        # Just Insert, Do NOT Delete
+        data, count = supabase.table('participants').insert(rows).execute()
+        return data.data if hasattr(data, 'data') else data[1]
+    except Exception as e:
+        st.error(f"DB Error: {e}")
+        return None
         
     # --- STEP 2: INSERT NEW DATA ---
     rows = matches_df.to_dict('records')

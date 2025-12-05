@@ -15,7 +15,7 @@ from modules.db_service import get_user_by_token
 
 # --- PAGE CONFIGURATION ---
 st.set_page_config(
-    page_title="Secret Santa 2024", 
+    page_title="Secret Santa 2025", 
     page_icon="🎅", 
     layout="centered",
     initial_sidebar_state="expanded"

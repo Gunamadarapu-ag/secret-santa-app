@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from modules.pairing_logic import generate_matches
-from modules.db_service import init_game_db, get_participant_count
+from modules.db_service import init_game_db, get_participant_count,add_more_participants
 from modules.email_service import send_game_links
 
 def show_admin_page():
@@ -49,25 +49,36 @@ def show_admin_page():
             st.divider()
             col1, col2 = st.columns(2)
             
+            # OPTION A: NUCLEAR WIPE (For starting fresh next year)
             with col1:
-                if st.button("2. Initialize Game DB 💾"):
-                    with st.spinner("Wiping old data & saving new..."):
-                        data = init_game_db(st.session_state['matches_df'])
+                if st.button("⚠️ Initialize NEW Event (Wipes DB)", type="primary"):
+                    st.warning("This deletes ALL existing Bangalore data! Are you sure?")
+                    if st.checkbox("Yes, delete everything and start over"):
+                        with st.spinner("Wiping and saving..."):
+                            data = init_game_db(st.session_state['matches_df'])
+                            if data:
+                                st.session_state['saved_data'] = data
+                                st.success("Database Reset & New Data Added!")
+
+            # OPTION B: APPEND (For adding Chennai now)
+            with col2:
+                if st.button("➕ Add to Existing Event (Safe)"):
+                    with st.spinner("Adding new people..."):
+                        # CALL THE NEW FUNCTION
+                        data = add_more_participants(st.session_state['matches_df'])
                         if data:
                             st.session_state['saved_data'] = data
-                            st.success("✅ Database Initialized!")
-
-            # 4. Send Emails
-            with col2:
-                if 'saved_data' in st.session_state:
-                    if st.button("3. Send Game Links 📧"):
-                        with st.spinner("Sending emails..."):
-                            from modules.email_service import send_game_links # Ensure import
-                            s, f, l = send_game_links(
-                                st.session_state['saved_data'], 
-                                st.secrets["GMAIL_USER"], 
-                                st.secrets["GMAIL_PASS"], 
-                                app_url
-                            )
-                        st.success(f"Sent: {s}, Failed: {f}")
-                        if l: st.write(l)
+                            st.success(f"✅ Added {len(data)} new people! Bangalore data is safe.")
+            # 4. SEND EMAILS
+            st.divider()
+            if 'saved_data' in st.session_state:
+                if st.button("3. Send Game Links 📧"):
+                    with st.spinner("Sending emails..."):
+                        s, f, l = send_game_links(
+                            st.session_state['saved_data'], 
+                            st.secrets["GMAIL_USER"], 
+                            st.secrets["GMAIL_PASS"], 
+                            app_url
+                        )
+                    st.success(f"Sent: {s}, Failed: {f}")
+                    if l: st.write(l)
