@@ -12,7 +12,13 @@ def show_admin_page():
     except:
         st.metric(label="Total Participants Joined", value=0)
     st.divider()
+    # 2. PASSWORD PROTECTION
+    password = st.sidebar.text_input("🔐 Admin Password", type="password")
     
+    if password != st.secrets["ADMIN_PASSWORD"]:
+        st.warning("⚠️ Enter the Admin Password in the sidebar to access controls.")
+        return
+    st.success("✅ Admin Access Granted")
     # Check Secrets
     if "GMAIL_USER" not in st.secrets:
         st.error("Secrets missing!")

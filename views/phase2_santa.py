@@ -2,29 +2,95 @@ import streamlit as st
 import time
 from modules.db_service import get_target_info, submit_clues_and_dare
 
+def toggle_name():
+        # 1. Flip the state
+        st.session_state.show_target_name = not st.session_state.show_target_name
+        
+        # 2. If we are opening (Revealing)...
+        if st.session_state.show_target_name:
+            # Sequence of Toasts for effect
+            st.balloons()
+            st.toast("🥁 Drumroll please...", icon="🥁")
+            time.sleep(0.8) # Small pause for suspense
+            st.toast("The secret is out...", icon="🔓")
+            time.sleep(0.8)
+            st.toast(f"🎉 It's {user['match_name']}!", icon="🎁")
+
 def show_santa_dashboard(user):
     st.header("🎅 My Mission (Santa Mode)")
-    st.info(f"You are the Secret Santa for: **{user['match_name']}**")
-    
-    # 1. SHOW TARGET'S WISHLIST
-    target_data = get_target_info(user['match_email'])
-    wishlist = target_data.get('wishlist') if target_data else "Not submitted yet."
-    
-    with st.expander(f"🎁 View {user['match_name']}'s Wishlist", expanded=True):
-        if wishlist:
-            st.success(f"**They want:** {wishlist}")
-        else:
-            st.warning("They haven't updated their wishlist yet. Check back later!")
+
+    # --- 1. SECRET REVEAL LOGIC (EYE BUTTON) ---
+    if 'show_target_name' not in st.session_state:
+        st.session_state.show_target_name = False
+
+    def toggle_name():
+        st.session_state.show_target_name = not st.session_state.show_target_name
+        if st.session_state.show_target_name:
+            st.toast("🥁 Drumroll please...", icon="🥁")
+            time.sleep(0.8) 
+            st.toast(f"🎉 It's {user['match_name']}!", icon="🎁")
+
+    # Create a nice container for the target info
+    with st.container(border=True):
+        col_text, col_btn = st.columns([5, 1], gap="small")
+        
+        with col_text:
+            if st.session_state.show_target_name:
+                st.info(f"🎯 You are the Secret Santa for: **{user['match_name']}**")
+            else:
+                st.info("🎯 You are the Secret Santa for: ***************")
+        
+        with col_btn:
+            # The Toggle Button
+            btn_text = "🙈 Hide" if st.session_state.show_target_name else "👁️ Reveal"
+            st.button(btn_text, on_click=toggle_name, use_container_width=True)
 
     st.divider()
 
-    # 2. CHECK IF I ALREADY SUBMITTED CLUES
+    # --- 2. SIDE-BY-SIDE WISHLISTS ---
+    
+    # Fetch Target Data
+    target_data = get_target_info(user['match_email'])
+    target_wishlist = target_data.get('wishlist') if target_data else "Not submitted yet."
+    
+    # Get My Data (Already in 'user' object)
+    my_wishlist = user.get('wishlist', "You haven't added one.")
+
+    # Create 2 Columns
+    col_target, col_me = st.columns(2)
+
+    # LEFT COLUMN: THE CHILD'S WISHLIST
+    with col_target:
+        st.markdown(f"### 🎁 **{user['match_name']}'s** Wishlist")
+        st.caption("(What they want from YOU)")
+        with st.container(border=True):
+            if target_wishlist == "Not submitted yet.":
+                st.warning(target_wishlist)
+            else:
+                st.success(f"📝 {target_wishlist}")
+
+    # RIGHT COLUMN: MY WISHLIST
+    with col_me:
+        st.markdown("### 📝 **Your** Wishlist")
+        st.caption("(What you told your Santa)")
+        with st.container(border=True):
+            st.info(f"{my_wishlist}")
+
+    st.divider()
+
+    # --- 3. CLUES & TASKS FORM ---
+    
+    # CHECK IF I ALREADY SUBMITTED CLUES
     if user['clues_submitted']:
         st.success("✅ You have submitted your clues! Now wait for them to guess.")
-        st.write(f"**Dare:** {user.get('dare_task')}")
-        st.write(f"**Bonus:** {user.get('bonus_task')}")
+        with st.expander("View what you submitted"):
+            st.write(f"**Clue 1:** {user.get('clue_1')}")
+            st.write(f"**Clue 2:** {user.get('clue_2')}")
+            st.write(f"**Clue 3:** {user.get('clue_3')}")
+            st.write(f"**Dare:** {user.get('dare_task')}")
+            st.write(f"**Bonus:** {user.get('bonus_task')}")
     else:
-        # 3. FORM TO SUBMIT CLUES
+        # FORM TO SUBMIT CLUES
         st.markdown("### 🕵️ Create the Game")
         st.write("You must give 3 clues about YOUR identity so they can guess you.")
         

@@ -8,7 +8,7 @@ def show_chat_tab(user):
 
     # Split into two sub-tabs
     tab_child, tab_santa = st.tabs([
-        f"🎅 Chat with {user['match_name']} (My Child)", 
+        f"🎅 Chat with  My Child", 
         "🕵️ Chat with Secret Santa"
     ])
 
@@ -16,7 +16,7 @@ def show_chat_tab(user):
     # SECTION 1: CHAT WITH MY CHILD (I am Santa)
     # =================================================
     with tab_child:
-        st.info(f"You are the Santa for **{user['match_name']}**. You can send them hints or check on their progress.")
+        st.info("You are chatting with your **Secret Child**. Keep your identity secret!")
         
         # 1. Find Child's Token
         child_token = get_token_by_email(user['match_email'])
