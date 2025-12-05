@@ -4,6 +4,7 @@ from views.phase1_wishlist import show_wishlist_page
 from views.phase2_santa import show_santa_dashboard
 from views.phase3_game import show_game_page
 from modules.db_service import get_user_by_token
+from views.chat_view import show_chat_tab
 
 st.set_page_config(page_title="Secret Santa Game", page_icon="🎄")
 
@@ -29,11 +30,19 @@ else:
         else:
             # PHASE 2 & 3 (Main Dashboard)
             st.title("🎄 Secret Santa Dashboard")
-            
-            tab1, tab2 = st.tabs(["🎅 My Mission (To Do)", "🕵️ My Mystery (To Play)"])
-            
-            with tab1:
-                show_santa_dashboard(user)
-            
-            with tab2:
-                show_game_page(user)
+        
+        # Create 3 Tabs
+        tab1, tab2, tab3 = st.tabs([
+            "🎅 My Mission (To Do)", 
+            "🕵️ My Mystery (To Play)",
+            "💬 Messages" 
+        ])
+        
+        with tab1:
+            show_santa_dashboard(user)
+        
+        with tab2:
+            show_game_page(user)
+
+        with tab3:
+            show_chat_tab(user)

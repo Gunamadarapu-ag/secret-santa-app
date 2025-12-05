@@ -1,11 +1,17 @@
 import streamlit as st
 import pandas as pd
 from modules.pairing_logic import generate_matches
-from modules.db_service import init_game_db
+from modules.db_service import init_game_db, get_participant_count
 from modules.email_service import send_game_links
 
 def show_admin_page():
     st.title("🎅 Secret Santa Admin (Game Mode)")
+    try:
+        count = get_participant_count()
+        st.metric(label="Total Participants Joined", value=count)
+    except:
+        st.metric(label="Total Participants Joined", value=0)
+    st.divider()
     
     # Check Secrets
     if "GMAIL_USER" not in st.secrets:
@@ -50,6 +56,7 @@ def show_admin_page():
                 if 'saved_data' in st.session_state:
                     if st.button("3. Send Game Links 📧"):
                         with st.spinner("Sending emails..."):
+                            from modules.email_service import send_game_links # Ensure import
                             s, f, l = send_game_links(
                                 st.session_state['saved_data'], 
                                 st.secrets["GMAIL_USER"], 
