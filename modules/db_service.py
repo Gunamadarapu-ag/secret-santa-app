@@ -63,6 +63,13 @@ def get_participant_count():
     resp = supabase.table('participants').select("*", count='exact').execute()
     return resp.count if resp.count is not None else 0
 
+def get_pending_santas():
+    """Fetches list of users who have NOT submitted clues yet (The missing function!)"""
+    supabase = init_supabase()
+    # Check where clues_submitted is FALSE
+    resp = supabase.table('participants').select("*").eq('clues_submitted', False).execute()
+    return resp.data if resp.data else []
+
 # --- USER FETCHING ---
 def get_user_by_token(token):
     supabase = init_supabase()
