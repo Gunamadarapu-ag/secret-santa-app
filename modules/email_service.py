@@ -146,20 +146,20 @@ def send_clue_reminders(data, sender_email, sender_pass, base_url):
             body_html = f"""
             <p class="message" style="font-size: 18px;"><strong>Dear Lazy Santa {user['name']},</strong></p>
             
-            <div class="steps-box" style="background-color: #fff0f0; border: 2px dashed #ff4b4b; text-align: center; padding: 20px;">
-                <p style="font-size: 16px; margin: 0 0 10px 0;">
+            <div class="steps-box" style="background-color: #fff0f0; border: 2px dashed #ff4b4b; text-align: center; padding: 20px; color: #333333;">
+                <p style="font-size: 16px; margin: 0 0 10px 0; color: #333333;">
                     😴 We know you are too busy to wake up from your bed...
                 </p>
                 
                 <h2 style="color: #d32f2f; margin: 10px 0;">⏰ PLEASE WAKE UP! ⏰</h2>
                 
-                <p>You need to fill up the clues! If you hit snooze one more time, the system might accidentally whisper:</p>
+                <p style="color: #333333;">You need to fill up the clues! If you hit snooze one more time, the system might accidentally whisper:</p>
                 
-                <div style="background: white; padding: 10px; border-radius: 5px; margin: 15px auto; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                <div style="background: white; padding: 10px; border-radius: 5px; margin: 15px auto; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.1); color: #d32f2f;">
                     <em>"The Lazy Santa is actually {user['name']}!"</em>
                 </div>
                 
-                <p style="font-size: 14px; margin-top: 10px;">Don't let that happen. Click the button below!</p>
+                <p style="font-size: 14px; margin-top: 10px; color: #333333;">Don't let that happen. Click the button below!</p>
             </div>
             """
             
