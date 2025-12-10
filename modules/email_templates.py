@@ -152,7 +152,7 @@ def get_common_html_template(name, body_content, cta_text=None, cta_link=None):
             
             <div class="footer">
                 <p>Sent with holiday cheer by <strong>Secret Santa Mail Services</strong></p>
-                <p>© 2024 Acies Global. All rights reserved.</p>
+                <p>© 2025 Acies Global. All rights reserved.</p>
             </div>
         </div>
         <!-- Note: Scripts are usually blocked by email clients, removed to keep email clean -->
