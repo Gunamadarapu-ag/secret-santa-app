@@ -127,7 +127,7 @@ else:
 
             elif selected_tab == "🕵️ My Mystery":
                 # 🔒 LOCK LOGIC
-                if True: # Set to True to Lock, False to Unlock
+                if False: # Set to True to Lock, False to Unlock
                     st.info("🔒 This section is locked!")
                     st.write("### 📅 The Guessing Game begins in 2 Days!")
                     st.write("Use this time to chat with your Santa and Child in the Chat tab.")
