@@ -56,7 +56,7 @@ def show_game_page(user):
             st.success("🎉 You Guessed CORRECTLY!")
             st.markdown(f"**Your Victory Task was:** {user.get('bonus_task')}")
         else:
-            st.error("💀 You Failed!")
+            st.error(" You Failed!")
             st.markdown(f"**Your Penalty Task was:** {user.get('dare_task')}")
             
         st.write("Your proof has been recorded. See you at the Reveal!")
