@@ -69,6 +69,16 @@ def get_pending_santas():
     # Check where clues_submitted is FALSE
     resp = supabase.table('participants').select("*").eq('clues_submitted', False).execute()
     return resp.data if resp.data else []
+def lock_guess_attempt(token, is_correct):
+    """
+    Locks the user's guess immediately so they can't refresh and try again.
+    """
+    supabase = init_supabase()
+    status = 'attempted_correct' if is_correct else 'attempted_wrong'
+    
+    supabase.table('participants').update({
+        'guess_status': status
+    }).eq('secret_token', token).execute()
 
 # --- USER FETCHING ---
 def get_user_by_token(token):

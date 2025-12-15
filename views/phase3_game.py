@@ -1,6 +1,6 @@
 import streamlit as st
 import time
-from modules.db_service import get_santa_clues, get_all_employee_names, update_game_status
+from modules.db_service import get_santa_clues, get_all_employee_names, update_game_status,lock_guess_attempt
 
 
 
@@ -71,6 +71,39 @@ def show_game_page(user):
         return
 
     # --- 4. DISPLAY CLUES ---
+    st.markdown("### 🧩 The Clues")
+    with st.container(border=True):
+        st.write(f"**1. (Hard):** {santa_row['clue_1']}")
+        st.write(f"**2. (Medium):** {santa_row['clue_2']}")
+        st.write(f"**3. (Easy):** {santa_row['clue_3']}")
+    
+    current_status = user.get('guess_status', 'pending')
+
+    # --- SCENARIO A: THEY ALREADY GUESSED RIGHT (But need to upload proof) ---
+    if current_status == 'attempted_correct':
+        show_upload_ui(
+            user['secret_token'], 
+            'correct', # Final status
+            santa_row['bonus_task'], 
+            "🌟 VICTORY LAP",
+            "win"
+        )
+        return
+
+    # --- SCENARIO B: THEY ALREADY GUESSED WRONG (But need to upload proof) ---
+    if current_status == 'attempted_wrong':
+        show_upload_ui(
+            user['secret_token'], 
+            'failed', # Final status
+            santa_row['dare_task'], 
+            "😈 THE PENALTY",
+            "lose"
+        )
+        return
+
+    # --- SCENARIO C: THEY HAVEN'T GUESSED YET (Pending) ---
+    
+    # Show Clues
     st.markdown("### 🧩 The Clues")
     with st.container(border=True):
         st.write(f"**1. (Hard):** {santa_row['clue_1']}")
