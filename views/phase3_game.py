@@ -58,7 +58,7 @@ def show_game_page(user):
     
     if not santa_row or not santa_row['clues_submitted']:
         st.warning("⏳ Your Santa hasn't created your clues yet. Check back later!")
-        st.image("https://media.giphy.com/media/l0HlHJGHe3yAMhdQY/giphy.gif")
+        st.image("https://i.gifer.com/Ft6C.gif")
         return
 
     # --- 2. CHECK DATABASE STATUS ---
