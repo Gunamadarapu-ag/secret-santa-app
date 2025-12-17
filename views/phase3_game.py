@@ -19,7 +19,7 @@ def show_upload_ui(token, status_for_db, task_desc, header_text, style_type):
         st.info("Don't worry, only the Admin can see this until the Reveal Party!")
         
         # --- GOOGLE FORM LINK ---
-        google_form_link = "YOUR_GOOGLE_FORM_LINK_HERE" 
+        google_form_link = "https://docs.google.com/forms/d/e/1FAIpQLSdAh6KErjnBS51FGcF1Bhftz4V98a7sGv7CjSlHyeHizKN0bw/viewform" 
         
         st.markdown(
             f"""
