@@ -39,6 +39,8 @@ def show_admin_page():
     
     st.divider()
 
+    
+
     # --- 2. PASSWORD PROTECTION ---
     password = st.sidebar.text_input("🔐 Admin Password", type="password")
     
@@ -66,6 +68,12 @@ def show_admin_page():
                 st.success(f"Generated {len(matches_df)} pairs.")
                 st.session_state['matches_df'] = matches_df
                 st.dataframe(matches_df)
+    st.sidebar.markdown("---")
+    st.sidebar.header("🎬 Event Controls")
+    
+    if st.sidebar.button("🚀 Launch Grand Reveal Mode", type="primary"):
+        st.session_state['reveal_mode'] = True
+        st.rerun()
 
         # --- 5. SAVE TO DATABASE ---
         if 'matches_df' in st.session_state:

@@ -9,7 +9,7 @@ from views.phase1_wishlist import show_wishlist_page
 from views.phase2_santa import show_santa_dashboard
 from views.phase3_game import show_game_page
 from views.chat_view import show_chat_tab
-# from views.reveal_view import show_grand_reveal # (Optional)
+from views.reveal_view import show_grand_reveal
 
 from modules.db_service import get_user_by_token
 
@@ -43,7 +43,7 @@ token = query_params.get("token", None)
 if not token:
     # Check if Admin triggered the Grand Reveal Mode
     if st.session_state.get('reveal_mode'):
-        # show_grand_reveal()
+        show_grand_reveal()
         st.sidebar.divider()
         if st.sidebar.button("🔙 Exit Reveal Mode"):
              st.session_state['reveal_mode'] = False
